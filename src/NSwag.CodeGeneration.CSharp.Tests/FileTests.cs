@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_file_is_generated_system_alias_is_there()
+        public async Task When_file_is_generated_system_alias_is_there_with_defaults()
         {
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
@@ -35,10 +35,39 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             {
                 GenerateClientInterfaces = true
             });
+
+            Assert.Equal("System", codeGen.Settings.GlobalSystemNamespaceAlias);
+
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("System = global::System", code);
+            Assert.Contains("using System = global::System", code);
+        }
+
+        [Fact]
+        public async Task When_file_is_generated_system_alias_is_there_with_overridden_name()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FileDownloadController>();
+
+            // Act
+            var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                GlobalSystemNamespaceAlias = "SuperGlobalSystem"
+            });
+
+            Assert.Equal("SuperGlobalSystem", codeGen.Settings.GlobalSystemNamespaceAlias);
+
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("using SuperGlobalSystem = global::System", code);
         }
     }
 }

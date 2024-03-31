@@ -40,6 +40,8 @@ namespace NSwag.CodeGeneration.CSharp
 
             AdditionalNamespaceUsages = new string[0];
             AdditionalContractNamespaceUsages = new string[0];
+
+            GlobalSystemNamespaceAlias = "System";
         }
 
         /// <summary>Gets the CSharp generator settings.</summary>
@@ -66,5 +68,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the dictionary type of operation parameters.</summary>
         public string ParameterDictionaryType { get; set; }
+
+        /// <summary>Gets or sets an alias for the global::System namespace - defaults to "System".</summary>
+        public string GlobalSystemNamespaceAlias { get; set; }
     }
 }

@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema.CodeGeneration;
@@ -79,6 +80,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the classes code.</summary>
         public string Classes { get; }
+
+        /// <summary>placeholder.</summary>
+        public string GlobalSystemNamespaceAlias => _settings.GlobalSystemNamespaceAlias;
 
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter =>
@@ -155,7 +159,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         return new[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
                     }
                 }
-                return new string[] { };
+                return Array.Empty<string>();
             }
         }
     }
